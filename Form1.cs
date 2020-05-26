@@ -1,6 +1,6 @@
 ﻿// Steve Ratering
 // 2020/5/26
-// Snowflake Curve Birthday Card for Katie
+// Snowflake Curve Birthday Cards for Katie and Lily
 
 using System;
 using System.Collections.Generic;
@@ -23,7 +23,6 @@ namespace Snowflake
         static int width, height, level;
         static double length;
         static String shape;
-        static Boolean nested;
 
         public Form1()
         {
@@ -66,6 +65,9 @@ namespace Snowflake
 
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
+            Boolean forLily = true;
+            Font font;
+            float x, y, xBd, yBd;
             float thick = 1;
             width = canvas.Width;
             height = canvas.Height;
@@ -85,6 +87,7 @@ namespace Snowflake
             DrawSnow(x1, y1, 2, length * 3, level, true);
             DrawSnow(x2, y2, 10, length * 3, level, true);
             DrawSnow(x3, y1, 6, length * 3, level, true);
+
             x1 = centerX - length;
             y1 = centerY;
             x2 = centerX + length / 2;
@@ -93,26 +96,70 @@ namespace Snowflake
             DrawSnow(x1, y1, 1, length * Math.Sqrt(3), level - 1, true);
             DrawSnow(x2, y2, 9, length * Math.Sqrt(3), level - 1, true);
             DrawSnow(x2, y3, 5, length * Math.Sqrt(3), level - 1, true);
-            Font font = new Font("Times New Roman", 24.0f);
+
+            if (forLily)
+            {
+                x1 = centerX - length / 2;
+                y1 = centerY + length * Math.Sqrt(3) / 6;
+                x2 = centerX;
+                y2 = centerY - length / Math.Sqrt(3);
+                x3 = centerX + length / 2;
+                DrawSnow(x1, y1, 2, length, level - 2, true);
+                DrawSnow(x2, y2, 10, length, level - 2, true);
+                DrawSnow(x3, y1, 6, length, level - 2, true);
+            }
+
+            if (forLily)
+            {
+                font = new Font("Times New Roman", 19.0f);
+                x = (float)(centerX - length * 0.42);
+                y = (float)(centerY - length * 0.25);
+            }
+            else 
+            {
+                font = new Font("Times New Roman", 24.0f);
+                x = (float)(centerX - length * 0.5);
+                y = (float)(centerY - length * 0.1);
+            }
             Brush brush = new System.Drawing.SolidBrush(System.Drawing.Color.Purple);
-            float x = (float)(centerX - length * 0.5);
-            float y = (float)(centerY - length * 0.1);
             String txt = "Jesus loves you!";
+            String txtBday = "2020.6.30";
             g.DrawString(txt, font, brush, x, y);
 
-            font = new Font("Times New Roman", 16.0f);
+            if (forLily)
+            {
+                font = new Font("Times New Roman", 14.0f);
+                x = (float)(centerX - length * 0.18);
+                y = (float)(centerY + length * 0.05);
+            }
+            else 
+            {
+                font = new Font("Times New Roman", 16.0f);
+                x = (float)(centerX - length * 0.2);
+                y = (float)(centerY + length * 0.15);
+            }
+
             brush = new System.Drawing.SolidBrush(System.Drawing.Color.Blue);
-            x = (float)(centerX - length * 0.2);
-            y = (float)(centerY + length * 0.15);
             txt = "I do too!";
             g.DrawString(txt, font, brush, x, y);
 
             font = new Font("Times New Roman", 14.0f);
             brush = new System.Drawing.SolidBrush(System.Drawing.Color.Red);
-            x = (float)(centerX - length * 0.43);
+            Brush brushGr = new System.Drawing.SolidBrush(System.Drawing.Color.Green);
+            x = (float)(centerX - length * (forLily ? 0.4 : 0.43));
             y = (float)(centerY - length * 1.4);
-            txt = "Happy birthday Katie!";
+            xBd = (float)(centerX - length *  0.2);
+            yBd = (float)(centerY - length * 1.05);
+            if (forLily){
+                txt = "Happy birthday Lily!";
+            } else {
+                txt = "Happy birthday Katie!";
+            }
             g.DrawString(txt, font, brush, x, y);
+            if (forLily)
+            {
+                g.DrawString(txtBday, font, brushGr, xBd, yBd);
+            }
 
             float w = (float)centerX;
             float h = (float)centerY;
@@ -122,6 +169,10 @@ namespace Snowflake
                 g.RotateTransform(60);
                 g.TranslateTransform(-w, -h);
                 g.DrawString(txt, font, brush, x, y);
+                if (forLily)
+                {
+                    g.DrawString(txtBday, font, brushGr, xBd, yBd);
+                }
             }
         }
 
